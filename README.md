@@ -20,7 +20,7 @@ Overview
 The Fuel fencing plugin is a Puppet configuration module being executed as an
 additional post deployment step in order to provide HA fencing (STONITH based)
 of a failed cluster nodes.
-The plugin itself is used to describe a datacenter's HW power management
+The plugin itself is used to describe a datacenter's hardware power management
 configuration - such as PDU outlets, IPMI and other agents - and represent
 it as a fencing topology for Corosync & Pacemaker cluster.
 
@@ -42,12 +42,37 @@ power outlets layouts, BM hosts to PM devices mappings and other parameters.
 This plugin also installs fence-agents package and assumes
 there is the one avaiable in the OS repositories.
 
+Requirements
+------------
+
+| Plugin version | Mirantis OpenStack release  |
+| -------------- |:---------------------------:|
+| 6.0.0          | 6.0                         |
+
+
 Setup
 -----
 
 ### Installing Fencing plugin
 
-Please refer to the [plugins dev guide](http://docs.mirantis.com/fuel/fuel-6.0/plugin-dev.html#what-is-pluggable-architecture)
+To install HA fencing plugin, follow these steps:     
+          
+1. Download the plug-­in from Plugins Catalog.
+2. Copy the plug-­in on already installed Fuel Master node;
+   If you do not have the Fuel Master node yet, see the [Quick Start Guide](https://software.mirantis.com/quick-start/):
+
+```
+scp ha_fencing-6.0.0.fp root@:<the_Fuel_Master_node_IP>:/tmp
+cd /tmp
+fuel plugins --install ha_fencing-6.0.0.fp
+```
+
+3. Using Fuel UI wizard, create an HA environment.
+4. Select the plugin checkbox on the Settings tab of the Fuel web UI.
+5. Select the fencing policy (reboot, power off or disabled) on the Settings tab of the Fuel web UI.
+6. Assign roles to the nodes as usually. Use Fuel CLI instead of Deploy button to provision all nodes in the environment.
+
+
 Note that in order to build this plugin the following tools must present:
 * rsync
 * wget
@@ -55,7 +80,7 @@ Note that in order to build this plugin the following tools must present:
 ### Beginning with Fencing plugin
 
 * Create an HA environment and select the fencing policy (reboot, poweroff or
-  disabled) at the settings tab.
+  disabled) at the Settings tab of the Fuel web UI.
 
 * Assign roles to the nodes as always, but use Fuel CLI instead of Deploy button
   to provision all nodes in the environment. Please note, that the power management
@@ -102,19 +127,19 @@ Note that in order to build this plugin the following tools must present:
   or reached from the management interfaces of controller nodes in order to provide a
   connectivity to the fencing devices.
 
-  In the given example we define the same topology for node-10 and node-11 and slightly
+  In the given example, we define the same topology for node-10 and node-11 and slightly
   different one for node-12 - just to illustrate that each node could have a different
   fence agent types configured, hence, the different topology as well. So, we configure
   nodes 10 and 11 to rely on IPMI and PSU devices, while the node 12 is a virtual node
   and relies on virsh agent.
 
   Please also note, that the names of nodes in fence topology stanza and ``pcmk_*``
-  parameters should be specified as FQDN names in case of RedHat OS family and as a
-  short names in case of Debian OS family. That is related to the node naming rules in
-  Pacemaker cluster in different OS types.
+  parameters should be specified as FQDN names in case of RedHat operating systems family and as a
+  short names in case of Debian operating systems family. That is related to the node naming rules in
+  Pacemaker cluster in different operating system types.
  
 * Put created fencing configuration YAML files as ``/etc/pcs_fencing.yaml``
-  for corresponding controller nodes.
+  for the corresponding controller nodes.
 
 * Deploy HA environment either by CLI command or Deploy button
 
@@ -138,7 +163,8 @@ describe and configure the fencing topology for Corosync & Pacemaker
 cluster. The plugin includes custom puppet module pcs_fencing and as a dependencies,
 custom corosync module and puppetlabs/stdlib module v4.5.0.
 
-It changes global cluster properties:
+It changes global cluster properties as follows:
+
 * cluster-recheck-interval = 3 minutes
 * stonith-enabled = True
 
@@ -160,14 +186,15 @@ Limitations
 Development
 -----------
 
-Developer documentation for the entire Fuel project.
+All documentation related to plugins can be found here:
 
-* https://wiki.openstack.org/wiki/Fuel#Where_can_documentation_be_found
+* https://wiki.openstack.org/wiki/Fuel/Plugins
 
 Contributors
 ------------
 
-Will be added later
+Primary contributor:
+    Bogdan Dobrelya - <bdobrelya@mirantis.com>
 
 Versioning
 ----------
