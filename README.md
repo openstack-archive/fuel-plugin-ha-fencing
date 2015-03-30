@@ -178,6 +178,7 @@ versioning for plugin releases are as follows:
 ```
 Plugin :: Fuel version
 6.0.0  -> 6.0
+6.0.1  -> 6.0.1
 ```
 
 Known Issues
@@ -213,3 +214,7 @@ Release Notes
 *** 6.0.0 *** 
 
 * This is the initial release of this plugin.
+
+*** 6.0.1 ***
+
+* Add support of the Fuel 6.0.1
