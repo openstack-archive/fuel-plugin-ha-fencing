@@ -41,9 +41,9 @@ fence_primitives:
       auth: password
       power_wait: '15'
       delay: '300'
-      action: reboot
-      pcmk_reboot_action: reboot
-      pcmk_off_action: reboot
+      action: 'reboot'
+      pcmk_reboot_action: 'reboot'
+      pcmk_off_action: 'reboot'
       pcmk_host_list: node-10.test.local
   psu_off:
     agent_type: fence_apc_snmp
