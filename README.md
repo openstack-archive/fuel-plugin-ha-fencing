@@ -64,6 +64,8 @@ Note that in order to build this plugin the following tools must present:
 * Define YAML configuration files for controller nodes and existing power management
   (PM aka STONITH) devices. See an example in
   ``deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml``.
+  Note, that quotes for the 'off' and 'reboot' values are important as just an ``off``
+  would be equal to ``false``, which is wrong.
 
   In the given example we assume 'reboot' policy, which is a hard resetting of
   the failed nodes in Pacemaker cluster. We define IPMI reset action and PSU OFF/ON
@@ -120,8 +122,9 @@ Note that in order to build this plugin the following tools must present:
 
 TODO(bogdando) finish the guide, add agents and devices verification commands
 
-Please also note that the recommended value for the ``no-quorum-policy`` cluster property
-should be changed manually (after deployment is done) from ignore/stopped to suicide.
+Please also note that for clusters containing 3,5,7 or more controllers the recommended
+value for the ``no-quorum-policy`` cluster property should be changed manually
+(after deployment is done) from ignore/stopped to suicide.
 For more information on no-quorum policy, see the [Cluster Options](http://clusterlabs.org/doc/en-US/Pacemaker/1.0/html/Pacemaker_Explained/s-cluster-options.html)
 section in the official Pacemaker documentation. You can set this property by the command
 ```
