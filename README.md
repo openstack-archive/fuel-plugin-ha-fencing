@@ -56,14 +56,27 @@ Note that in order to build this plugin the following tools must present:
 
 * Create an HA environment and select the fencing policy (reboot, poweroff or
   disabled) at the settings tab.
+  Note, that there is no difference between the 'reboot' and 'poweroff' policy for
+  this version of the plugin. The 'reboot' or 'poweroff' value just enables the
+  fencing feature, while the 'disabled' value - disables it. The difference may
+  present for future versions, when creation of the YAML configuration files for
+  nodes will be automated.
 
 * Assign roles to the nodes as always, but use Fuel CLI instead of Deploy button
   to provision all nodes in the environment. Please note, that the power management
-  devices should be reachable from the management network via TCP protocol.
+  devices should be reachable from the management network via TCP protocol:
+
+  ```
+  fuel --env <environment_id> node --provision --node <nodes_list>
+  ```
+
+  (node list should be comma-separated like 1,2,3,4)
 
 * Define YAML configuration files for controller nodes and existing power management
   (PM aka STONITH) devices. See an example in
-  ``deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml``.
+  [deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml](https://github.com/stackforge/fuel-plugin-ha-fencing/blob/master/deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml).
+  Note, that quotes for the 'off' and 'reboot' values are important as just an ``off``
+  would be equal to ``false``, which is wrong.
 
   In the given example we assume 'reboot' policy, which is a hard resetting of
   the failed nodes in Pacemaker cluster. We define IPMI reset action and PSU OFF/ON
@@ -116,12 +129,19 @@ Note that in order to build this plugin the following tools must present:
 * Put created fencing configuration YAML files as ``/etc/pcs_fencing.yaml``
   for corresponding controller nodes.
 
-* Deploy HA environment either by CLI command or Deploy button
+* Deploy HA environment either by Deploy button in UI or by CLI command:
+
+  ```
+  fuel --env <environment_id> node --deploy --node <nodes_list>
+  ```
+
+  (node list should be comma-separated like 1,2,3,4)
 
 TODO(bogdando) finish the guide, add agents and devices verification commands
 
-Please also note that the recommended value for the ``no-quorum-policy`` cluster property
-should be changed manually (after deployment is done) from ignore/stopped to suicide.
+Please also note that for clusters containing 3,5,7 or more controllers the recommended
+value for the ``no-quorum-policy`` cluster property should be changed manually
+(after deployment is done) from ignore/stopped to suicide.
 For more information on no-quorum policy, see the [Cluster Options](http://clusterlabs.org/doc/en-US/Pacemaker/1.0/html/Pacemaker_Explained/s-cluster-options.html)
 section in the official Pacemaker documentation. You can set this property by the command
 ```
@@ -184,7 +204,7 @@ Plugin :: Fuel version
 Known Issues
 ------------
 
-[LP1411603](https://bugs.launchpad.net/fuel/+bug/1411603)
+### Concurrent nodes deployment issue [LP1411603](https://bugs.launchpad.net/fuel/+bug/1411603)
 
 After the deployment is finished, please make sure all of the controller nodes have
 corresponding ``stonith__*`` primitives and the stonith verification command gives
@@ -207,6 +227,37 @@ one "allow" location shown by the ref command.
 
 If some of the controller nodes does not have corresponding stonith primitives
 or locations for them, please follow the workaround provided at the LP bug.
+
+### Timer expired responses
+
+There is also possible that fencing actions are timed out with the errors like:
+
+```
+error: remote_op_done: Operation reboot of node-8 by node-7 for
+crmd.7932@node-7.d3cb0ebd: Timer expired
+```
+
+or some nodes configured with 'reboot' policy may enter the reboot loop caused by
+the fencing action.
+
+All of this means that the given values for timeouts should be verified and adjusted
+as appropriate.
+
+### Node stucks in pending state after was powered on
+
+There is a known bug in pacemaker 1.1.10 when the fenced node returns back too fast
+(see this [mail thread](http://oss.clusterlabs.org/pipermail/pacemaker/2014-April/021564.html) for details):
+
+Essentially the node is returning "too fast" (specifically, before the fencing
+notification arrives) causing pacemaker to forget the node is up and healthy.
+The fix for this is https://github.com/beekhof/pacemaker/commit/e777b17 and is
+present in 1.1.11
+
+As a workaround you should not bring the failed node back within few minutes after
+it had been STONITHed. And if it still stucks in pending state, you can restart its
+corosync service. And if corosync service hangs on stop and have to be killed and
+restarted - make it fast, otherwise another STONITH action triggered by dead corosync
+process would arrive.
 
 Release Notes
 -------------

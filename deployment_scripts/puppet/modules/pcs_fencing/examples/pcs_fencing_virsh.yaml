@@ -37,7 +37,7 @@ fence_primitives:
       login_timeout: '5'
       secure: true
       delay: '300'
-      action: reboot
-      pcmk_reboot_action: reboot
-      pcmk_off_action: reboot
+      action: 'reboot'
+      pcmk_reboot_action: 'reboot'
+      pcmk_off_action: 'reboot'
       pcmk_host_map: 'node-7:env60_slave-07'
