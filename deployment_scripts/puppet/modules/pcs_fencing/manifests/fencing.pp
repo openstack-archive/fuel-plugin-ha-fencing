@@ -33,7 +33,11 @@ define pcs_fencing::fencing (
         'score'   => '100',
         'boolean' => '',
         'expressions' => [
-          {'attribute'=>"#uname",'operation'=>'ne','value'=>$::pacemaker_hostname},
+          {
+            'attribute'=> '#uname',
+            'operation'=>'ne',
+            'value'=>$::pacemaker_hostname,
+          },
         ],
       },
     ],

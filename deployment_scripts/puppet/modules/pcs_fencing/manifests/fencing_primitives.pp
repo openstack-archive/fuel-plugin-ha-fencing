@@ -8,10 +8,10 @@ class pcs_fencing::fencing_primitives (
 ) {
   case $::osfamily {
     'RedHat': {
-       $names = filter_hash($nodes, 'fqdn')
+      $names = filter_hash($nodes, 'fqdn')
     }
     'Debian': {
-       $names = filter_hash($nodes, 'name')
+      $names = filter_hash($nodes, 'name')
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat and Debian")
