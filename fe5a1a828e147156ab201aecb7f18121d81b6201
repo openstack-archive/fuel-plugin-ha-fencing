@@ -1,0 +1,8 @@
+Verified+2: Jenkins
+Code-Review+2: Bogdan Dobrelya <bdobrelia@mirantis.com>
+Workflow+1: Bogdan Dobrelya <bdobrelia@mirantis.com>
+Submitted-by: Jenkins
+Submitted-at: Fri, 17 Apr 2015 12:02:44 +0000
+Reviewed-on: https://review.openstack.org/174357
+Project: stackforge/fuel-plugin-ha-fencing
+Branch: refs/heads/master
