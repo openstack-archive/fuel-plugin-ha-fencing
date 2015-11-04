@@ -18,9 +18,10 @@ if ($is_controller or $primary_controller) {
 
     include stdlib
     class { '::pcs_fencing::fencing_primitives':
-      fence_primitives => $fence_primitives,
-      fence_topology   => $fence_topology,
-      nodes            => $controllers,
+      fence_primitives   => $fence_primitives,
+      fence_topology     => $fence_topology,
+      nodes              => $controllers,
+      primary_controller => $primary_controller,
     }
   }
 }
