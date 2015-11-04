@@ -16,11 +16,11 @@ wget -qO- "${REPO_PATH}" | \
     mv "${MODULES}puppetlabs-puppetlabs-stdlib-80f0962" "${MODULES}stdlib"
 
 #Fuel 5.1.1 puppet-corosync
-REPO_PATH='https://github.com/stackforge/fuel-library/tarball/a3043477337b4a0a8fd166dc83d6cd5d504f5da8'
+REPO_PATH='https://github.com/openstack/fuel-library/tarball/a3043477337b4a0a8fd166dc83d6cd5d504f5da8'
 MODULES="${ROOT}"/deployment_scripts/puppet/modules/
 
 wget -qO- "${REPO_PATH}" | \
     tar -C "${MODULES}" --strip-components=3 -zxvf - \
-    stackforge-fuel-library-a304347/deployment/puppet/corosync
+    openstack-fuel-library-a304347/deployment/puppet/corosync
 
 
