@@ -22,11 +22,16 @@ describe 'pcs_fencing::fencing_primitives' do
           'fqdn' => 'node-1.foo.bar',
           'name' => 'node-1',
           'role' => 'primary-controller'
+        },
+        {
+          'fqdn' => 'node-2.foo.bar',
+          'name' => 'node-2',
+          'role' => 'controller'
         }
       ]
     }
   end
-  let(:names) { [ 'node-1.foo.bar' ] }
+  let(:names) { [ 'node-1.foo.bar', 'node-2.foo.bar' ] }
   let(:facts) {{ :osfamily => 'RedHat' }}
 
   context 'then configuring fencing' do

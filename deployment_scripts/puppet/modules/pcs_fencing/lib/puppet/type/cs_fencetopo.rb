@@ -39,7 +39,7 @@ module Puppet
     end
 
     autorequire(:service) do
-      [ 'corosync' ]
+      [ 'corosync', 'pacemaker' ]
     end
 
     autorequire(:cs_shadow) do

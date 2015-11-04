@@ -135,7 +135,7 @@ describe Puppet::Type.type(:cs_fencetopo).provider(:crm) do
       out=File.open(File.dirname(__FILE__) + '/../../../../fixtures/cib/cib.xml')
       provider.class.stubs(:dump_cib).returns(out,nil)
       provider.class.stubs(:exec_withenv).with(' --query --scope fencing-topology', {}).returns(0)
-      provider.exists?.should be_true
+      provider.exists?.should be_truthy
     end
 
     it 'checks if topology singleton does not exist' do
@@ -143,7 +143,7 @@ describe Puppet::Type.type(:cs_fencetopo).provider(:crm) do
       out=File.open(File.dirname(__FILE__) + '/../../../../fixtures/cib/cib_no_topo.xml')
       provider.class.stubs(:dump_cib).returns(out,nil)
       provider.class.stubs(:exec_withenv).with(' --query --scope fencing-topology', {}).returns(6)
-      provider.exists?.should be_false
+      provider.exists?.should be_falsey
     end
   end
 end

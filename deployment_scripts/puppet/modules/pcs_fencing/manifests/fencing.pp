@@ -52,13 +52,13 @@ define pcs_fencing::fencing (
     metadata            => $meta,
   }
 
-  cs_location {"location__prohibit__${res_name}":
+  cs_rsc_location {"location__prohibit__${res_name}":
     node_name  => $::pacemaker_hostname,
     node_score => '-INFINITY',
     primitive  => $res_name,
   }
 
-  cs_location {"location__allow__${res_name}":
+  cs_rsc_location {"location__allow__${res_name}":
     primitive  => $res_name,
     rules     => [
       {
@@ -74,7 +74,7 @@ define pcs_fencing::fencing (
       },
     ],
   }
-  
+
   Cs_resource[$res_name] ->
-  Cs_location<||>
+  Cs_rsc_location<||>
 }

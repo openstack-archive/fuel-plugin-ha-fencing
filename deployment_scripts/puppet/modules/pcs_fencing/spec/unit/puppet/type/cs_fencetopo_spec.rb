@@ -71,7 +71,7 @@ describe Puppet::Type.type(:cs_fencetopo) do
 
     [:cib, :name ].each do |param|
       it "should have a #{param} parameter" do
-        subject.validparameter?(param).should be_true
+        subject.validparameter?(param).should be_truthy
       end
 
       it "should have documentation for its #{param} parameter" do
@@ -81,7 +81,7 @@ describe Puppet::Type.type(:cs_fencetopo) do
 
     [ :nodes, :fence_topology ].each do |prop|
       it "should have a #{prop} property" do
-        subject.validproperty?(prop).should be_true
+        subject.validproperty?(prop).should be_truthy
       end
 
       it "should have documentation for its #{prop} property" do

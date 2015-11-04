@@ -1,5 +1,16 @@
+# Plugin
 deployment_scripts/puppet/modules/corosync
+deployment_scripts/puppet/modules/pacemaker
 deployment_scripts/puppet/modules/stdlib
 .build
 tmp
 *.fp
+
+# Editors
+*.swp
+*~
+
+# Bundle
+Gemfile.lock
+.bundled_gems
+.bundle

@@ -35,14 +35,12 @@ describe 'pcs_fencing::fencing', :type => :define do
     {
       :primitive => res_name,
       :rules => [
-        {
-          'score'   => '100',
-          'boolean' => '',
-          'expressions' => [
-            {'attribute'=>"#uname",'operation'=>'ne','value'=>node}
-          ]
-        }
-      ]
+        ["score", "100"],
+        ["boolean", ""],
+        ["expressions", [
+          {"attribute"=>"#uname",
+           "operation"=>"ne",
+           "value"=>"node-1"}]]] 
     }
   end
   let(:facts) {{ :osfamily => 'Debian' }}
@@ -67,7 +65,7 @@ describe 'pcs_fencing::fencing', :type => :define do
       )
     end
     it 'should create a prohibit location' do
-      should contain_cs_location("location__prohibit__#{res_name}").with(
+      should contain_cs_rsc_location("location__prohibit__#{res_name}").with(
         {
           'node_name' => location_prohibit_params[:node_name],
           'node_score' => location_prohibit_params[:score],
@@ -76,7 +74,7 @@ describe 'pcs_fencing::fencing', :type => :define do
       )
     end
     it 'should create an allow location' do
-      should contain_cs_location("location__allow__#{res_name}").with(
+      should contain_cs_rsc_location("location__allow__#{res_name}").with(
         {
           'primitive' => location_allow_params[:primitive],
           'rules' => location_allow_params[:rules]
