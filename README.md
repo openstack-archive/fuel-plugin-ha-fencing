@@ -74,7 +74,7 @@ Note that in order to build this plugin the following tools must present:
 
 * Define YAML configuration files for controller nodes and existing power management
   (PM aka STONITH) devices. See an example in
-  [deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml](https://github.com/stackforge/fuel-plugin-ha-fencing/blob/master/deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml).
+  [deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml](https://github.com/openstack/fuel-plugin-ha-fencing/blob/master/deployment_scripts/puppet/modules/pcs_fencing/examples/pcs_fencing.yaml).
   Note, that quotes for the 'off' and 'reboot' values are important as just an ``off``
   would be equal to ``false``, which is wrong.
 
