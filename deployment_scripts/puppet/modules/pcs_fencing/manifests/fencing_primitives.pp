@@ -40,9 +40,11 @@ class pcs_fencing::fencing_primitives (
   case $::osfamily {
     'RedHat': {
       $names = filter_hash($nodes, 'fqdn')
+      $prov  = 'pcs'
     }
     'Debian': {
       $names = filter_hash($nodes, 'name')
+      $prov  = 'crm'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat and Debian")
@@ -56,12 +58,19 @@ class pcs_fencing::fencing_primitives (
 
   if $primary_controller {
     cs_fencetopo { 'fencing_topology':
+      #TODO(bogdando) make crm/pcs providers
       ensure         => present,
       fence_topology => $fence_topology,
       nodes          => $names,
     }
-    cs_property { 'stonith-enabled': value  => 'true' }
-    cs_property { 'cluster-recheck-interval':  value  => '3min' }
+    cs_property { 'stonith-enabled':
+      value    => 'true',
+      provider => $prov,
+    }
+    cs_property { 'cluster-recheck-interval':
+      value    => '3min',
+      provider => $prov,
+    }
   }
 
   package {'fence-agents':}

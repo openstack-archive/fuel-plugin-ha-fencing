@@ -47,7 +47,7 @@ Setup
 
 ### Installing Fencing plugin
 
-Please refer to the [plugins dev guide](http://docs.mirantis.com/fuel/fuel-6.0/plugin-dev.html#what-is-pluggable-architecture)
+Please refer to the [plugins dev guide](http://docs.mirantis.com/fuel/fuel-6.1/plugin-dev.html#what-is-pluggable-architecture)
 Note that in order to build this plugin the following tools must present:
 * rsync
 * wget
@@ -125,7 +125,7 @@ Note that in order to build this plugin the following tools must present:
   parameters should be specified as FQDN names in case of RedHat OS family and as a
   short names in case of Debian OS family. That is related to the node naming rules in
   Pacemaker cluster in different OS types.
- 
+
 * Put created fencing configuration YAML files as ``/etc/pcs_fencing.yaml``
   for corresponding controller nodes.
 
@@ -199,6 +199,7 @@ versioning for plugin releases are as follows:
 Plugin :: Fuel version
 6.0.0  -> 6.0
 6.0.1  -> 6.0.1
+8.0.0  -> 6.1, 7.0, 8.0
 ```
 
 Known Issues
@@ -259,13 +260,21 @@ corosync service. And if corosync service hangs on stop and have to be killed an
 restarted - make it fast, otherwise another STONITH action triggered by dead corosync
 process would arrive.
 
+Note, this issue should not be relevant since the Fuel 6.1 release containing
+the pacemaker 1.1.12
+
 Release Notes
 -------------
 
-*** 6.0.0 *** 
+*** 6.0.0 ***
 
 * This is the initial release of this plugin.
 
 *** 6.0.1 ***
 
 * Add support of the Fuel 6.0.1
+
+*** 8.0.0 ***
+
+* Add support of the Fuel 6.1, 7.0, 8.0
+* Use rpm for the plugin package distribution

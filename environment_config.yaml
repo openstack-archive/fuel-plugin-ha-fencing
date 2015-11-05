@@ -5,3 +5,9 @@ attributes:
     description: 'Pick a type of HA fencing policy'
     weight: 25
     type: "text"
+  yaml_additional_config:
+    value: '/etc/pcs_fencing.yaml'
+    label: 'Yaml settings file for fencing configuration'
+    description: 'Pick a Yaml file for fencing config'
+    weight: 25
+    type: "text"
