@@ -1,8 +1,22 @@
-# Deployment is required for controllers
-- role: ['controller']
+# Deployment tasks
+- id: ha-fencing-hiera-override
+  role: ['primary-controller', 'controller']
   stage: post_deployment
+  requires: [post_deployment_start]
+  required_for: [post_deployment_end]
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/site.pp
-    puppet_modules: puppet/modules
-    timeout: 720
+    puppet_manifest: "ha_fencing_hiera_override.pp"
+    puppet_modules: "puppet/modules"
+    timeout: 120
+
+- id: ha-fencing-deploy
+  role: ['primary-controller', 'controller']
+  stage: post_deployment
+  requires: [post_deployment_start, ha-fencing-hiera-override]
+  required_for: [post_deployment_end]
+  type: puppet
+  parameters:
+    puppet_manifest: "ha_fencing_deploy.pp"
+    puppet_modules: "puppet/modules"
+    timeout: 600

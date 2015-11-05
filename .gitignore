@@ -4,6 +4,7 @@ deployment_scripts/puppet/modules/pacemaker
 deployment_scripts/puppet/modules/stdlib
 .build
 tmp
+*.rpm
 *.fp
 
 # Editors
