@@ -16,7 +16,7 @@ describe 'pcs_fencing::fencing', :type => :define do
   let :primitive_params do
     {
       :ensure => 'present',
-      :provided_by => 'pacemaker',
+      :provided_by => nil,
       :primitive_class => 'stonith',
       :primitive_type => params[:agent_type],
       :parameters => params[:parameters],
@@ -40,7 +40,7 @@ describe 'pcs_fencing::fencing', :type => :define do
         ["expressions", [
           {"attribute"=>"#uname",
            "operation"=>"ne",
-           "value"=>"node-1"}]]] 
+           "value"=>"node-1"}]]]
     }
   end
   let(:facts) {{ :osfamily => 'Debian' }}

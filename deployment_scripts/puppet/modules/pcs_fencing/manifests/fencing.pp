@@ -44,7 +44,8 @@ define pcs_fencing::fencing (
 
   cs_resource { $res_name:
     ensure              => present,
-    provided_by         => 'pacemaker',
+    # stonith does not support providers
+    provided_by         => undef,
     primitive_class     => 'stonith',
     primitive_type      => $agent_type,
     parameters          => $parameters,
